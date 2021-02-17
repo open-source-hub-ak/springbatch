@@ -1,7 +1,5 @@
 package com.opensource.springbatch;
 
-import javax.batch.api.listener.JobListener;
-
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
