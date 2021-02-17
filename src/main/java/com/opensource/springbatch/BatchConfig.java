@@ -2,8 +2,11 @@ package com.opensource.springbatch;
 
 import javax.batch.api.listener.JobListener;
 
+import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,11 +17,19 @@ public class BatchConfig {
 	@Autowired
 	private StepBuilderFactory sbf;
 
+	@Autowired
+	private JobBuilderFactory jbf;
+
+	// JOB CONFIGURED
+	public Job job1() {
+		return jbf.get("job1").incrementer(new RunIdIncrementer()).listener(listner()).start(step1()).build();
+	}
+
+	// STEP CONFIGURED
 	@Bean
 	public Step step1() {
 		return sbf.get("step1").<String, String>chunk(1).reader(reader()).processor(processor()).writer(writer())
 				.build();
-
 	}
 
 	// EXPOSE Reader writer and processor as beans
