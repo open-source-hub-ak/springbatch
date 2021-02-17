@@ -19,6 +19,7 @@ public class BatchConfig {
 	private JobBuilderFactory jbf;
 
 	// JOB CONFIGURED
+	@Bean
 	public Job job1() {
 		return jbf.get("job1").incrementer(new RunIdIncrementer()).listener(listner()).start(step1()).build();
 	}
