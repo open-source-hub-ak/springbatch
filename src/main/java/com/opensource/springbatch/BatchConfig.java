@@ -21,13 +21,20 @@ public class BatchConfig {
 	// JOB CONFIGURED
 	@Bean
 	public Job job1() {
-		return jbf.get("job1").incrementer(new RunIdIncrementer()).listener(listner()).start(step1()).build();
+		return jbf.get("job1").incrementer(new RunIdIncrementer()).listener(listner()).start(step1()).next(step2())
+				.build();
 	}
 
 	// STEP CONFIGURED
 	@Bean
 	public Step step1() {
 		return sbf.get("step1").<String, String>chunk(1).reader(reader()).processor(processor()).writer(writer())
+				.build();
+	}
+
+	@Bean
+	public Step step2() {
+		return sbf.get("step2").<String, String>chunk(1).reader(reader()).processor(processor2()).writer(writer())
 				.build();
 	}
 
@@ -40,6 +47,11 @@ public class BatchConfig {
 	@Bean
 	public Processor processor() {
 		return new Processor();
+	}
+
+	@Bean
+	public Processor2 processor2() {
+		return new Processor2();
 	}
 
 	@Bean
